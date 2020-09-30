@@ -48,5 +48,11 @@ public class UserResource {
 //		A uri do objeto criado irá no header
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+//		"no content" retorna o código http 204, que é quando não retorna nada
+	}
 	
 }
