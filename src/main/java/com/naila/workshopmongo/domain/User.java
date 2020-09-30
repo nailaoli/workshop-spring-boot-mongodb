@@ -2,9 +2,17 @@ package com.naila.workshopmongo.domain;
 
 import java.io.Serializable;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+
+//Mesmo sem colocar collection="user", o Spring Data irá mapear para o mesmo nome
+//da classe mas com a letra minúscula.
+@Document(collection="user")
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
+	@Id
 	private String id;
 	private String name;
 	private String email;
