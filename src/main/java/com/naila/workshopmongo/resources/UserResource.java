@@ -55,4 +55,12 @@ public class UserResource {
 //		"no content" retorna o código http 204, que é quando não retorna nada
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody UserDTO userDto, @PathVariable String id) {
+		User user = service.fromDTO(userDto);
+		user.setId(id);
+		user = service.update(user);
+		return ResponseEntity.noContent().build();
+	}
+	
 }
