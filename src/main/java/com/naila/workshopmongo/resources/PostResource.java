@@ -44,4 +44,13 @@ public class PostResource {
 		return ResponseEntity.ok().body(posts);
 	}
 	
+//	Igual o método anterior, mas utilizando consulta ao BD com
+//	@Query e regex manual
+	@RequestMapping(value="/searchtitle", method=RequestMethod.GET)
+	public ResponseEntity<List<Post>> searchTitle(@RequestParam(value="text", defaultValue="") String text) {
+		String decodedText = URL.decodeParam(text);
+		List<Post> posts = service.findByTitleComRegex(decodedText);
+		return ResponseEntity.ok().body(posts);
+	}
+	
 }
