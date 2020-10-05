@@ -1,5 +1,6 @@
 package com.naila.workshopmongo.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -23,4 +24,8 @@ public interface PostRepository extends MongoRepository<Post, String>{
 	@Query("{ 'title': { $regex: ?0, $options: 'i' } }")
 	List<Post> findByTitleManual(String text);
 	
+//	Busca no título, ou corpo do post, ou comentários, entre datas
+//	Referência: https://docs.mongodb.com/manual/reference/operator/query
+	@Query("{ $and: [ { date: {$gte: ?1} }, { date: { $lte: ?2} } , { $or: [ { 'title': { $regex: ?0, $options: 'i' } }, { 'body': { $regex: ?0, $options: 'i' } }, { 'comments.text': { $regex: ?0, $options: 'i' } } ] } ] }")
+	List<Post> fullSearch(String text, LocalDate minData, LocalDate maxDate);
 }

@@ -1,5 +1,7 @@
 package com.naila.workshopmongo.resources;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,18 @@ public class PostResource {
 	public ResponseEntity<List<Post>> searchTitle(@RequestParam(value="text", defaultValue="") String text) {
 		String decodedText = URL.decodeParam(text);
 		List<Post> posts = service.findByTitleComRegex(decodedText);
+		return ResponseEntity.ok().body(posts);
+	}
+	
+	@RequestMapping(value="/fullsearch", method=RequestMethod.GET)
+	public ResponseEntity<List<Post>> fullSearch(
+			@RequestParam(value="text", defaultValue="") String text,
+			@RequestParam(value="minDate", defaultValue="") String minDateText,
+			@RequestParam(value="maxDate", defaultValue="") String maxDateText) {
+		String decodedText = URL.decodeParam(text);
+		LocalDate minDate = URL.convertDate(minDateText, LocalDate.ofEpochDay(0L));
+		LocalDate maxDate = URL.convertDate(maxDateText, LocalDate.now());
+		List<Post> posts = service.fullSearch(decodedText, minDate, maxDate);
 		return ResponseEntity.ok().body(posts);
 	}
 	

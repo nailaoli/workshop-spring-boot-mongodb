@@ -2,6 +2,8 @@ package com.naila.workshopmongo.resources.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class URL {
 	
@@ -15,6 +17,15 @@ public class URL {
 			return URLDecoder.decode(text, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			return ""; // Método ou retorna o valor decodificado, ou uma string vazia
+		}
+	}
+	
+	public static LocalDate convertDate(String textDate, LocalDate defaultValue) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		try {
+			return LocalDate.parse(textDate, formatter);
+		} catch (Exception e) {
+			return defaultValue;
 		}
 	}
 }
